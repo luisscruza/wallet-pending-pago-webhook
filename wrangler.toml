@@ -1,0 +1,6 @@
+name = "wallet-pending-pago-webhook"
+main = "worker.js"
+compatibility_date = "2026-05-10"
+
+[vars]
+TG_CHAT_ID = "7463249562"
