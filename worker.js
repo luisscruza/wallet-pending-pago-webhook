@@ -21,19 +21,26 @@ export default {
       return new Response('Ignored', { status: 200 });
     }
 
-    const tgResp = await fetch(`https://api.telegram.org/bot${env.TG_TOKEN}/sendMessage`, {
+    const payload = {
+      action: 'send',
+      channel: 'telegram',
+      target: env.OPENCLAW_TARGET_CHAT_ID,
+      message: text,
+    };
+
+    const ocResp = await fetch(`${env.OPENCLAW_GATEWAY_URL}/tools/message`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: env.TG_CHAT_ID,
-        text,
-      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${env.OPENCLAW_GATEWAY_TOKEN}`,
+      },
+      body: JSON.stringify(payload),
     });
 
-    const tgJson = await tgResp.json().catch(() => null);
+    const ocText = await ocResp.text();
 
-    if (!tgResp.ok || !tgJson?.ok) {
-      return new Response(`Telegram send failed: ${JSON.stringify(tgJson)}`, { status: 502 });
+    if (!ocResp.ok) {
+      return new Response(`OpenClaw send failed: ${ocText}`, { status: 502 });
     }
 
     return new Response('ok', { status: 200 });
