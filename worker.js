@@ -13,30 +13,18 @@ export default {
         return new Response('Ignored', { status: 200 });
       }
 
-      const invokePayload = {
-        tool: 'sessions_send',
-        args: {
-          sessionKey: env.OPENCLAW_SESSION_KEY,
-          message: text,
-        },
-        sessionKey: 'main',
-      };
-
-      const ocResp = await fetch(`${env.OPENCLAW_GATEWAY_URL}/tools/invoke`, {
+      const hookResp = await fetch(env.WALLET_HOOK_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${env.OPENCLAW_GATEWAY_TOKEN}`,
-        },
-        body: JSON.stringify(invokePayload),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
       });
 
-      const ocText = await ocResp.text();
-      if (!ocResp.ok) {
-        return new Response(`OpenClaw invoke failed (${ocResp.status}): ${ocText}`, { status: 502 });
+      const hookText = await hookResp.text();
+      if (!hookResp.ok) {
+        return new Response(`wallet hook failed (${hookResp.status}): ${hookText}`, { status: 502 });
       }
 
-      return new Response(`ok: ${ocText}`, { status: 200 });
+      return new Response(`ok: ${hookText}`, { status: 200 });
     } catch (e) {
       return new Response(`Worker error: ${e?.stack || e?.message || String(e)}`, { status: 500 });
     }

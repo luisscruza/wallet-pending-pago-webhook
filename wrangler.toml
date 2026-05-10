@@ -3,5 +3,4 @@ main = "worker.js"
 compatibility_date = "2026-05-10"
 
 [vars]
-OPENCLAW_GATEWAY_URL = "https://oc.cruzmediadigital.com"
-OPENCLAW_SESSION_KEY = "agent:main:telegram:direct:7463249562"
+WALLET_HOOK_URL = "https://oc.cruzmediadigital.com/wallet-hook"
