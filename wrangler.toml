@@ -4,4 +4,4 @@ compatibility_date = "2026-05-10"
 
 [vars]
 OPENCLAW_TARGET_CHAT_ID = "7463249562"
-OPENCLAW_GATEWAY_URL = "http://91.99.177.209:18789"
+OPENCLAW_GATEWAY_URL = "https://oc.cruzmediadigital.com"
