@@ -14,11 +14,9 @@ export default {
       }
 
       const invokePayload = {
-        tool: 'message',
+        tool: 'sessions_send',
         args: {
-          action: 'send',
-          channel: 'telegram',
-          target: env.OPENCLAW_TARGET_CHAT_ID,
+          sessionKey: env.OPENCLAW_SESSION_KEY,
           message: text,
         },
         sessionKey: 'main',
